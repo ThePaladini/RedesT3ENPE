@@ -30,9 +30,9 @@ class IP:
             next_hop = self._next_hop(dst_addr)
             ttl -= 1
             if ttl>0:
-                datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,ttl,6,0,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(dest_addr)))
+                datagrama= struct.pack('!BBHHHBBHII',69,dscp|ecn,20,identification,flags|frag_offset,ttl,proto,0,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(dest_addr)))
                 aux = calc_checksum(datagrama)    
-                datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,ttl,6,aux,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(dest_addr)))
+                datagrama= struct.pack('!BBHHHBBHII',69,dscp|ecn,20,identification,flags|frag_offset,ttl,proto,aux,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(dest_addr)))
                 self.enlace.enviar(datagrama, next_hop)
             else:
                 return None
