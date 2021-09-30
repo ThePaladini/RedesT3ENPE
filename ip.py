@@ -36,21 +36,21 @@ class IP:
         # TODO: Use a tabela de encaminhamento para determinar o próximo salto
         # (next_hop) a partir do endereço de destino do datagrama (dest_addr).
         # Retorne o next_hop para o dest_addr fornecido.
-        posicao = []
+        arr = []
         for i in range(len(self.tabela)):
             if ipaddress.ip_address(dest_addr) in (ipaddress.ip_network(self.tabela[i][0])):
-                posicao.append(i)
-        if (len(posicao ==1)):                           
-            return self.tabela[posicao[0]][1]
-        elif(len(posicao)>1):
-            final = ipaddress.ip_address(self.tabela[posicao[0]][0]).prefixlen()
+                arr.append(i)
+        if (len(arr == 1)):                           
+            return self.tabela[arr[0]][1]
+        elif(len(arr)>1):
+            final = ipaddress.ip_address(self.tabela[arr[0]][0]).prefixlen()
             ret = 0
-            for i in range(len(posicao)):
-                aux = ipaddress.ip_address(self.tabela[posicao[i]][0]).prefixlen()
+            for i in range(len(arr)):
+                aux = ipaddress.ip_address(self.tabela[arr[i]][0]).prefixlen()
                 if aux > final:
                     final = aux
                     ret = i
-            return self.tabela[posicao[i]][1]
+            return self.tabela[arr[i]][1]
         else:
             return None
 
