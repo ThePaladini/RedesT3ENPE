@@ -43,14 +43,14 @@ class IP:
         if (len(arr)==1):                           
             return self.tabela[arr[0]][1]
         elif(len(arr)>1):
-            final = ipaddress.ip_address(self.tabela[arr[0]][0]).prefixlen()
+            final = (ipaddress.ip_address(self.tabela[arr[0]][0])).prefixlen
             ret = 0
             for i in range(len(arr)):
-                aux = ipaddress.ip_address(self.tabela[arr[i]][0]).prefixlen()
+                aux = (ipaddress.ip_address(self.tabela[arr[i]][0])).prefixlen
                 if aux > final:
                     final = aux
                     ret = i
-            return self.tabela[arr[i]][1]
+            return self.tabela[arr[ret]][1]
         else:
             return None
 
