@@ -35,9 +35,8 @@ class IP:
                 datagrama= struct.pack('!BBHHHBBHII',69,dscp|ecn,20,identification,flags|frag_offset,ttl,proto,aux,int(ipaddress.ip_address(src_addr)),int(ipaddress.ip_address(dst_addr)))
                 self.enlace.enviar(datagrama, next_hop)
             else:
-
+                return None
                 
-
     def _next_hop(self, dest_addr):
         # TODO: Use a tabela de encaminhamento para determinar o próximo salto
         # (next_hop) a partir do endereço de destino do datagrama (dest_addr).
