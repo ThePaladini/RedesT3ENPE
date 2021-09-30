@@ -1,5 +1,8 @@
 from iputils import *
 import ipaddress
+import struct
+
+contador = 0 
 
 
 class IP:
@@ -14,7 +17,7 @@ class IP:
         self.enlace.registrar_recebedor(self.__raw_recv)
         self.ignore_checksum = self.enlace.ignore_checksum
         self.meu_endereco = None
-        self.tabela =[]
+        self.tabela = []
     def __raw_recv(self, datagrama):
         dscp, ecn, identification, flags, frag_offset, ttl, proto, \
            src_addr, dst_addr, payload = read_ipv4_header(datagrama)
@@ -66,11 +69,18 @@ class IP:
         self.callback = callback
 
     def enviar(self, segmento, dest_addr):
+        global contador
         """
         Envia segmento para dest_addr, onde dest_addr é um endereço IPv4
         (string no formato x.y.z.w).
         """
         next_hop = self._next_hop(dest_addr)
+        contador + = 1
+        
+        datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,0,ipaddress.ip_address(self.meu_endereco) ,ipaddress.ip_address(dest_addr))
+        aux=calc_checksum(datagrama)
+        datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,aux,ipaddress.ip_address(self.meu_endereco) ,ipaddress.ip_address(dest_addr))
+        
         # TODO: Assumindo que a camada superior é o protocolo TCP, monte o
         # datagrama com o cabeçalho IP, contendo como payload o segmento.
         self.enlace.enviar(datagrama, next_hop)
