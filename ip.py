@@ -14,7 +14,7 @@ class IP:
         self.enlace.registrar_recebedor(self.__raw_recv)
         self.ignore_checksum = self.enlace.ignore_checksum
         self.meu_endereco = None
-        self.tabela = []
+        self.tabela =[]
     def __raw_recv(self, datagrama):
         dscp, ecn, identification, flags, frag_offset, ttl, proto, \
            src_addr, dst_addr, payload = read_ipv4_header(datagrama)
@@ -33,8 +33,8 @@ class IP:
         # (next_hop) a partir do endereço de destino do datagrama (dest_addr).
         # Retorne o next_hop para o dest_addr fornecido.
         for i in range(len(self.tabela)):
-            if ipaddress.ip_address(dest_addr) in (ipaddress.ip_network(tabela[i][0])):
-                return tabela[i][1]
+            if ipaddress.ip_address(dest_addr) in (ipaddress.ip_network(self.tabela[i][0])):
+                return self.Atabela[i][1]
         return None
 
     def definir_endereco_host(self, meu_endereco):
