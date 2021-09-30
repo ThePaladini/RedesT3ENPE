@@ -40,8 +40,8 @@ class IP:
                 aux = calc_checksum(datagrama)   
                 datagramaRemete= struct.pack('!BBHHHBBHII',69,dscp|ecn,20,identification,flags|frag_offset,64,1,aux,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(src_addr)))
                 msgERRO = struct.pack('!BBHHH', 11, 0, 0, 0, 0)
-                checksum3 = calc_checksum(datagramaRemete + msgERRO)
-                msgERRO = struct.pack('!BBHHH', 11, 0, checksum3, 0, 0)
+                aux2 = calc_checksum(datagramaRemete + msgERRO)
+                msgERRO = struct.pack('!BBHHH', 11, 0, aux2, 0, 0)
                 datagramaRemete = datagramaRemete + msgERRO + datagrama[:28]
                 self.enlace.enviar(datagramaRemete, next_hopRemetente)
                 
