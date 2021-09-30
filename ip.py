@@ -81,7 +81,7 @@ class IP:
         datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,0,ip2int(ipaddress.ip_address(self.meu_endereco)) ,ip2int(ipaddress.ip_address(dest_addr)))
         aux=calc_checksum(datagrama)
         datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,aux,ip2int(ipaddress.ip_address(self.meu_endereco)) ,ip2int(ipaddress.ip_address(dest_addr)))
-        
+        datagrama = datagrama + segmento
         # TODO: Assumindo que a camada superior é o protocolo TCP, monte o
         # datagrama com o cabeçalho IP, contendo como payload o segmento.
         self.enlace.enviar(datagrama, next_hop)
