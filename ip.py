@@ -45,7 +45,7 @@ class IP:
         elif(len(posicao)>1):
             final = ipaddress.ip_address(self.tabela[posicao[0]][0]).prefixlen()
             ret = 0
-            for i in range(len(posicao))
+            for i in range(len(posicao)):
                 aux = ipaddress.ip_address(self.tabela[posicao[i]][0]).prefixlen()
                 if aux > final:
                     final = aux
