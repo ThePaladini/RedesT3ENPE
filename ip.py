@@ -40,7 +40,7 @@ class IP:
         for i in range(len(self.tabela)):
             if ipaddress.ip_address(dest_addr) in (ipaddress.ip_network(self.tabela[i][0])):
                 arr.append(i)
-        if (len(arr == 1)):                           
+        if (len(arr)==1):                           
             return self.tabela[arr[0]][1]
         elif(len(arr)>1):
             final = ipaddress.ip_address(self.tabela[arr[0]][0]).prefixlen()
