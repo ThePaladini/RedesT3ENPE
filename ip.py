@@ -36,10 +36,23 @@ class IP:
         # TODO: Use a tabela de encaminhamento para determinar o próximo salto
         # (next_hop) a partir do endereço de destino do datagrama (dest_addr).
         # Retorne o next_hop para o dest_addr fornecido.
+        posicao = []
         for i in range(len(self.tabela)):
             if ipaddress.ip_address(dest_addr) in (ipaddress.ip_network(self.tabela[i][0])):
-                return self.tabela[i][1]
-        return None
+                posicao.append(i)
+        if(len(posicao)==1)                            
+            return self.tabela[posicao[0]][1]
+        elif(len(posicao)>1):
+            final = ipaddress.ip_address(self.tabela[posicao[0]][0]).prefixlen()
+            ret = 0
+            for i in range(len(posicao))
+                aux = ipaddress.ip_address(self.tabela[posicao[i]][0]).prefixlen()
+                if aux > final:
+                    final = aux
+                    ret = i
+            return self.tabela[posicao[i]][1]
+        else:
+            return None
 
     def definir_endereco_host(self, meu_endereco):
         """
@@ -77,7 +90,6 @@ class IP:
         """
         next_hop = self._next_hop(dest_addr)
         contador += 1
-        
         datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,0,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(dest_addr)))
         aux=calc_checksum(datagrama)
         datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,aux,int(ipaddress.ip_address(self.meu_endereco)) ,int(ipaddress.ip_address(dest_addr)))
