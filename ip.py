@@ -27,10 +27,16 @@ class IP:
             if proto == IPPROTO_TCP and self.callback:
                 self.callback(src_addr, dst_addr, payload)
         else:
-            # atua como roteador
             next_hop = self._next_hop(dst_addr)
-            # TODO: Trate corretamente o campo TTL do datagrama
-            self.enlace.enviar(datagrama, next_hop)
+            ttl -= 1
+            if ttl>0:
+                datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,ttl,6,0,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(dest_addr)))
+                aux = calc_checksum(datagrama)    
+                datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,ttl,6,aux,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(dest_addr)))
+                self.enlace.enviar(datagrama, next_hop)
+            else:
+                return None
+                
 
     def _next_hop(self, dest_addr):
         # TODO: Use a tabela de encaminhamento para determinar o próximo salto
