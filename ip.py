@@ -34,7 +34,7 @@ class IP:
         # Retorne o next_hop para o dest_addr fornecido.
         for i in range(len(self.tabela)):
             if ipaddress.ip_address(dest_addr) in (ipaddress.ip_network(self.tabela[i][0])):
-                return self.Atabela[i][1]
+                return self.tabela[i][1]
         return None
 
     def definir_endereco_host(self, meu_endereco):
