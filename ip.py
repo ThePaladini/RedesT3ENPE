@@ -44,8 +44,8 @@ class IP:
                 msgERRO = struct.pack('!BBHHH', 11, 0, aux2, 0, 0)
                 datagramaRemete = datagramaRemete + msgERRO + datagrama[:28]
                 self.enlace.enviar(datagramaRemete, next_hopRemetente)
-                return None
                 
+
     def _next_hop(self, dest_addr):
         # TODO: Use a tabela de encaminhamento para determinar o próximo salto
         # (next_hop) a partir do endereço de destino do datagrama (dest_addr).
