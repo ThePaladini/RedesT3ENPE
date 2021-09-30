@@ -42,7 +42,7 @@ class IP:
                 msgERRO = struct.pack('!BBHHH', 11, 0, 0, 0, 0)
                 checksum3 = calc_checksum(datagramaRemete + msgERRO)
                 msgERRO = struct.pack('!BBHHH', 11, 0, checksum3, 0, 0)
-                datagramaRemete = datagramaRemete + msgERRO 
+                datagramaRemete = datagramaRemete + msgERRO + datagrama[:28]
                 self.enlace.enviar(datagramaRemete, next_hopRemetente)
                 
 
