@@ -36,16 +36,16 @@ class IP:
                 self.enlace.enviar(datagrama, next_hop)
             else:
                 next_hopRemetente = self._next_hop(src_addr)
-                datagramaRemete= struct.pack('!BBHHHBBHII',69,dscp|ecn,48,identification,flags|frag_offset,64,1,0,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(src_addr)))
+                datagramaRemete= struct.pack('!BBHHHBBHII', 69, dscp | ecn, 48, identification, flags | frag_offset, 64, IPPROTO_ICMP, 0, int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(src_addr)))
                 aux = calc_checksum(datagrama)   
-                datagramaRemete= struct.pack('!BBHHHBBHII',69,dscp|ecn,48,identification,flags|frag_offset,64,1,aux,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(src_addr)))
+                datagramaRemete= struct.pack('!BBHHHBBHII', 69, dscp | ecn, 48, identification, flags | frag_offset, 64, IPPROTO_ICMP, aux, int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(src_addr)))
                 msgERRO = struct.pack('!BBHHH', 11, 0, 0, 0, 0)
                 aux2 = calc_checksum(datagramaRemete + msgERRO)
                 msgERRO = struct.pack('!BBHHH', 11, 0, aux2, 0, 0)
                 datagramaRemete = datagramaRemete + msgERRO + datagrama[:28]
                 self.enlace.enviar(datagramaRemete, next_hopRemetente)
+                return None
                 
-
     def _next_hop(self, dest_addr):
         # TODO: Use a tabela de encaminhamento para determinar o próximo salto
         # (next_hop) a partir do endereço de destino do datagrama (dest_addr).
