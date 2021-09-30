@@ -1,9 +1,10 @@
 from iputils import *
 import ipaddress
 import struct
-
+import socket
 contador = 0 
-
+def ip2int(addr):
+    return struct.unpack("!I", socket.inet_aton(addr))[0]
 
 class IP:
     def __init__(self, enlace):
@@ -77,9 +78,9 @@ class IP:
         next_hop = self._next_hop(dest_addr)
         contador += 1
         
-        datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,0,ipaddress.ip_address(self.meu_endereco) ,ipaddress.ip_address(dest_addr))
+        datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,0,ip2int(ipaddress.ip_address(self.meu_endereco)) ,ip2int(ipaddress.ip_address(dest_addr)))
         aux=calc_checksum(datagrama)
-        datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,aux,ipaddress.ip_address(self.meu_endereco) ,ipaddress.ip_address(dest_addr))
+        datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,aux,ip2int(ipaddress.ip_address(self.meu_endereco)) ,ip2int(ipaddress.ip_address(dest_addr)))
         
         # TODO: Assumindo que a camada superior é o protocolo TCP, monte o
         # datagrama com o cabeçalho IP, contendo como payload o segmento.
