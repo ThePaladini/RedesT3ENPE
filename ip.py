@@ -75,7 +75,7 @@ class IP:
         (string no formato x.y.z.w).
         """
         next_hop = self._next_hop(dest_addr)
-        contador + = 1
+        contador += 1
         
         datagrama= struct.pack('!BBHHHBBHII',69,0,20+len(segmento),contador,0,64,6,0,ipaddress.ip_address(self.meu_endereco) ,ipaddress.ip_address(dest_addr))
         aux=calc_checksum(datagrama)
