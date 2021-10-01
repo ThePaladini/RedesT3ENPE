@@ -42,7 +42,7 @@ class IP:
                 icmp = struct.pack('!BBHHH', 11, 0, 0, 0, 0)
                 aux2 = calc_checksum(icmp)
                 icmp = struct.pack('!BBHHH', 11, 0, aux2, 0, 0)
-                msgFinal = datagrama + icmp
+                msgFinal = datagrama + icmp + datagrama[:28]
                 self.enlace.enviar(msgFinal,nova_next_hop)
                 return None
                 
