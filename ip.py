@@ -36,9 +36,9 @@ class IP:
                 self.enlace.enviar(datagrama, next_hop)
             else:
                 nova_next_hop = self._next_hop(src_addr)
-                datagrama= struct.pack('!BBHHHBBHII',69,dscp|ecn,48,identification,flags|frag_offset,ttl,1,0,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(src_addr)))
+                datagrama= struct.pack('!BBHHHBBHII',69,dscp|ecn,48,identification,flags|frag_offset,64,1,0,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(src_addr)))
                 aux = calc_checksum(datagrama)    
-                datagrama= struct.pack('!BBHHHBBHII',69,dscp|ecn,48,identification,flags|frag_offset,ttl,1,aux,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(src_addr)))
+                datagrama= struct.pack('!BBHHHBBHII',69,dscp|ecn,48,identification,flags|frag_offset,64,1,aux,int(ipaddress.ip_address(self.meu_endereco)),int(ipaddress.ip_address(src_addr)))
                 icmp = struct.pack('!BBHHH', 11, 0, 0, 0, 0)
                 aux2 = calc_checksum(icmp)
                 icmp = struct.pack('!BBHHH', 11, 0, aux2, 0, 0)
